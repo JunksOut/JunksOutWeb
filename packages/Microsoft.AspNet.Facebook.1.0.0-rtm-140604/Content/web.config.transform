@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.web>
+    <authentication mode="None" />
+  </system.web>
+
+  <system.webServer>
+    <modules>
+      <add name="FacebookAuthenticationModule" preCondition="managedHandler" type="Microsoft.AspNet.Facebook.FacebookAuthenticationModule, Microsoft.AspNet.Facebook, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    </modules>  
+  </system.webServer>
+</configuration>

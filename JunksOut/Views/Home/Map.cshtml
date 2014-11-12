@@ -1,0 +1,82 @@
+﻿@model List<TrashYourTreasure.Domain.UploadData>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Junk's Out</title>
+    <link rel="shortcut icon" href="../Images/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map-canvas {
+            height: 100%;
+            z-index: 0;
+        }
+
+        #logo {
+            z-index: 1;
+            background-color:transparent;
+            position: absolute;
+            right: 1%;
+            
+        }
+    </style>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYzvHvGmLcQOyRIg5mBYQKU45J9LrNWsg">
+    </script>
+    <script type="text/javascript">
+    function initialize() {
+        var mapOptions = {
+            center: new google.maps.LatLng(38.220630, -85.697239),
+            zoom: 13
+        };
+
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+
+        var ctaLayer = new google.maps.KmlLayer({
+            //url: "@Url.Action("PickupKml")"
+            url: "https://raw.githubusercontent.com/naiduv/kml/master/junklayer1.kml"
+        });
+        ctaLayer.setMap(map);
+
+        @*var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(@(Model[0].Latitude), @(Model[0].Longitude)),
+            map: map,
+            title: 'My workplace',
+        });*@
+
+        var markers = new Array();
+        @foreach(var marker in Model)
+        {
+        <text>
+        markers.push(new google.maps.Marker({
+            position: new google.maps.LatLng(@marker.Latitude, @marker.Longitude),
+            map: map,
+            title: "@marker.Description",
+            animation: google.maps.Animation.BOUNCE,
+            opacity: @marker.TimeSince,
+            icon: {url:"http://mcmua.com/images/50_Recycling_symbol.png", scaledSize: new google.maps.Size(20, 20)}
+            }));
+        </text>
+        }
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</head>
+<body>
+    <div id="logo"><img style="background-color: transparent" src="../Images/logo.png" /></div>
+    <div id="map-canvas" />
+</body>
+</html>
