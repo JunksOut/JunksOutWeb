@@ -1,15 +1,15 @@
-namespace TrashYourTreasure.Migrations
+namespace JunksOut.Migrations
 {
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<TrashYourTreasure.Domain.TytContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<JunksOut.Domain.TytContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(TrashYourTreasure.Domain.TytContext context)
+        protected override void Seed(JunksOut.Domain.TytContext context)
         {
             //  This method will be called after migrating to the latest version.
 

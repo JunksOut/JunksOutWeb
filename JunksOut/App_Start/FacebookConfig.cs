@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Mvc.Facebook;
 using Microsoft.AspNet.Mvc.Facebook.Authorization;
 
-namespace TrashYourTreasure
+namespace JunksOut
 {
     public static class FacebookConfig
     {

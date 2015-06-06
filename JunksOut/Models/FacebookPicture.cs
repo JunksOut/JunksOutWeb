@@ -1,4 +1,4 @@
-﻿namespace TrashYourTreasure.Models
+﻿namespace JunksOut.Models
 {
     public class FacebookPicture
     {

@@ -8,7 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.AspNet.Mvc.Facebook;
 
-namespace TrashYourTreasure
+namespace JunksOut
 {
     public class MvcApplication : System.Web.HttpApplication
     {

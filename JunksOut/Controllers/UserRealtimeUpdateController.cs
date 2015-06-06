@@ -6,7 +6,7 @@ using Microsoft.AspNet.Mvc.Facebook.Realtime;
 
 // To learn more about Facebook Realtime Updates, go to http://go.microsoft.com/fwlink/?LinkId=301876
 
-namespace TrashYourTreasure.Controllers
+namespace JunksOut.Controllers
 {
     public class UserRealtimeUpdateController : FacebookRealtimeUpdateController
     {

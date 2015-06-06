@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 
-namespace TrashYourTreasure.Domain
+namespace JunksOut.Domain
 {
     public class TytContext:DbContext
     {

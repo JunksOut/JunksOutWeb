@@ -1,0 +1,17 @@
+﻿@model JunksOut.Domain.UploadData
+@{
+    Layout = null;
+}
+
+
+@using (Html.BeginForm("Upload", "Home", FormMethod.Post,
+                             new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        Select a file <input type="file" name="file" />
+        <input type="submit" value="Upload" />
+
+    </fieldset>
+}

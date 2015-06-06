@@ -1,5 +1,5 @@
 ﻿
-namespace TrashYourTreasure.Domain
+namespace JunksOut.Domain
 {
     public class UploadData
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TrashYourTreasure.Models
+namespace JunksOut.Models
 {
     public class FacebookPhoto
     {

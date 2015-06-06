@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 // Add any fields you want to be saved for each user and specify the field name in the JSON coming back from Facebook
 // http://go.microsoft.com/fwlink/?LinkId=301877
 
-namespace TrashYourTreasure.Models
+namespace JunksOut.Models
 {
     public class MyAppUser
     {

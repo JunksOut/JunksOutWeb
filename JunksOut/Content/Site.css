@@ -12,20 +12,20 @@ header {
     width: 700px;
 }
 
-    header h1 {
-        font-size: 80px;
-        color: #004C66;
-        margin: 0;
-        padding-top: 20px;
-        font-weight: normal;
-    }
+header h1 {
+    font-size: 80px;
+    color: #004C66;
+    margin: 0;
+    padding-top: 20px;
+    font-weight: normal;
+}
 
-    header h2 {
-        font-size: 25px;
-        color: #004C66;
-        margin: 0;
-        font-weight: normal;
-    }
+header h2 {
+    font-size: 25px;
+    color: #004C66;
+    margin: 0;
+    font-weight: normal;
+}
 
 h3 {
     font-size: 20px;
@@ -52,9 +52,9 @@ p {
     background-image: url("../images/background.png");
 }
 
-    #topHeader p {
-        margin-left: 55px;
-    }
+#topHeader p {
+    margin-left: 55px;
+}
 
 #arrow {
     float: left;
@@ -78,9 +78,9 @@ p {
     float: left;
 }
 
-    #profilePicture img {
-        margin: 20px 20px 0 20px;
-    }
+#profilePicture img {
+    margin: 20px 20px 0 20px;
+}
 
 .intro {
     background-color: #ADDDE3;
@@ -113,20 +113,25 @@ p {
     border: none;
 }
 
-    .photoTile img {
-        margin: -2px;
-        padding: 0;
-    }
+.photoTile img {
+    margin: -2px;
+    padding: 0;
+}
 
-    .photoTile label {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        margin: 5px;
-        color: white;
-        font-size: 11px;
-        font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
-    }
+.photoTile label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 5px;
+    color: white;
+    font-size: 11px;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+}
+
+#upload-form{
+    position: absolute;
+    z-index: 3;
+}
 
 .buttonLink {
     margin: 5px;
@@ -137,9 +142,9 @@ p {
     display: inline-block;
 }
 
-    .buttonLink:hover {
-        background: #6194d3;
-    }
+ .buttonLink:hover {
+     background: #6194d3;
+ }
 
 footer {
     padding-top: 30px;
@@ -147,4 +152,27 @@ footer {
     font-size: 1em;
     height: 100px;
     text-align: center;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#map-canvas {
+    height: 100%;
+    z-index: 0;
+}
+
+#logo {
+    z-index: 1;
+    background-color:transparent;
+    position: absolute;
+    right: 1%;
+    
 }

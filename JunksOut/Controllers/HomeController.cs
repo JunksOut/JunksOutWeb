@@ -6,10 +6,10 @@ using System.Web.Mvc;
 using System.Xml.Linq;
 using Microsoft.AspNet.Mvc.Facebook;
 using Microsoft.AspNet.Mvc.Facebook.Client;
-using TrashYourTreasure.Domain;
-using TrashYourTreasure.Models;
+using JunksOut.Domain;
+using JunksOut.Models;
 
-namespace TrashYourTreasure.Controllers
+namespace JunksOut.Controllers
 {
     public class HomeController : Controller
     {
@@ -29,6 +29,23 @@ namespace TrashYourTreasure.Controllers
             }
 
             return View("Error");
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Upload()
+        {
+            foreach (string file in Request.Files)
+            {
+                var uploadedFile = Request.Files[file];
+                var uploadedFileName = uploadedFile.FileName;
+                if (!(uploadedFileName.Contains(".exe") || uploadedFileName.StartsWith(".") || uploadedFile.ContentLength > 2000000))
+                {
+                    uploadedFile.SaveAs(Server.MapPath("~/UserContent/Images/") +
+                                                  Path.GetFileName(uploadedFileName));
+                }
+            }
+
+            return RedirectToAction("Map");
         }
 
         public ActionResult Map()

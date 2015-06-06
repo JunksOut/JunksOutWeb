@@ -1,7 +1,7 @@
 ﻿
 using System.Web;
 
-namespace TrashYourTreasure.Models
+namespace JunksOut.Models
 {
     public class Pickup
     {
