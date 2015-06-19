@@ -11,18 +11,21 @@ namespace JunksOut
     {
         public int id { get; set; }
 
-        [StringLength(50)]
-        public string name { get; set; }
+        [StringLength(500)]
+        public string address { get; set; }
+
+        [StringLength(500)]
+        public string location { get; set; }
 
         [StringLength(500)]
         public string description { get; set; }
 
-        [StringLength(50)]
-        public string location { get; set; }
+        public int userid { get; set; }
+
+        [StringLength(500)]
+        public string tags { get; set; }
 
         [StringLength(500)]
         public string imageUrl { get; set; }
-
-        public int userid { get; set; }
     }
 }

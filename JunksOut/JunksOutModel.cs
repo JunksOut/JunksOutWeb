@@ -13,7 +13,6 @@ namespace JunksOut
         }
 
         public virtual DbSet<item> items { get; set; }
-        public virtual DbSet<user> users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

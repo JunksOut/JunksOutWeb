@@ -14,6 +14,9 @@ namespace JunksOut.Controllers
     public class HomeController : Controller
     {
         private readonly TytContext _dbContext;
+        private readonly JunksOutModel _junksOutModel = new JunksOutModel();
+
+
         public HomeController()
         {
             _dbContext = new TytContext();
@@ -31,18 +34,41 @@ namespace JunksOut.Controllers
             return View("Error");
         }
 
+        private void VerifyUserImagesDir()
+        {
+            Directory.CreateDirectory("~/UserContent");
+
+
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Upload()
         {
             foreach (string file in Request.Files)
             {
+                VerifyUserImagesDir();
                 var uploadedFile = Request.Files[file];
                 var uploadedFileName = uploadedFile.FileName;
                 if (!(uploadedFileName.Contains(".exe") || uploadedFileName.StartsWith(".") || uploadedFile.ContentLength > 2000000))
                 {
-                    uploadedFile.SaveAs(Server.MapPath("~/UserContent/Images/") +
+                    uploadedFile.SaveAs(Server.MapPath("~/UserContent/") +
                                                   Path.GetFileName(uploadedFileName));
+
+                    //add information to db
+                    //this needs to be acquired from the UI above
+                    _junksOutModel.items.Add(new item
+                    {
+                        address = "some place, NY",
+                        location = "38.220630, -85.1231",
+                        tags = "chair, table",
+                        description = "nice dinning room set",
+                        userid = 234,
+                        imageUrl = uploadedFileName
+                    });
+
+                    _junksOutModel.SaveChanges();
                 }
+
             }
 
             return RedirectToAction("Map");
