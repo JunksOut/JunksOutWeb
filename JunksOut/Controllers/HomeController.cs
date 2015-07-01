@@ -42,7 +42,7 @@ namespace JunksOut.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Upload()
+        public ActionResult Upload([Bind(Include = "address, location, tags, description, userid, imageUrl")] item userItem)
         {
             foreach (string file in Request.Files)
             {
