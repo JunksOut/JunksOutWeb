@@ -2,14 +2,12 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Junk's Out</title>
     <link rel="shortcut icon" href="../Images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../Content/Site.css" type="text/css" />
-
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYzvHvGmLcQOyRIg5mBYQKU45J9LrNWsg">
     </script>
@@ -20,22 +18,24 @@
                 zoom: 13
             };
 
-            var geocoder = new google.maps.Geocoder();
-            var clickedLocation = { X: 0.00, Y: 0.00 };
 
             var map = new google.maps.Map(document.getElementById("map-canvas"),
                 mapOptions);
 
+
+           
+
             //var marker = new google.maps.Marker({
             //    position: map.getCenter(),
-            //   map: map,
+            //    map: map,
             //    title: 'Click to zoom'
-            // });
+            //});
 
-            google.maps.event.addListener(map, 'click', function(event) {
-                map.setZoom(8);
-                map.setCenter(marker.getPosition());
-            });
+           
+            var geocoder = new google.maps.Geocoder();
+
+            var clickedLocation = { X: 0.00, Y: 0.00 };
+
             document.getElementById('btnSearch').onclick = function () {
                 var addressString = document.getElementById("address").value;
                 geocoder.geocode({ 'address': addressString }, function (results, status) {
@@ -43,28 +43,29 @@
                         map.setCenter(results[0].geometry.location);
                         clickedLocation.X = results[0].geometry.location.A;
                         clickedLocation.Y = results[0].geometry.location.F;
-                      
+                        //ViewBag.SelectedLocation = clickedLocation;
+                        //ViewBag.SelectedAddress = results[0].formatted_address;
                         var marker = new google.maps.Marker({
                             map: map,
                             animation: google.maps.Animation.BOUNCE,
                             icon: { url: "http://mcmua.com/images/50_Recycling_symbol.png", scaledSize: new google.maps.Size(20, 20) },
                             position: results[0].geometry.location
                         });
-                        ViewBag.SelectedLocation = clickedLocation;
-                        ViewBag.SelectedAddress = results[0].formatted_address;
                     } else {
-                        alert("Address was not found for the following reason: " + status);
+                        alert("Geocode was not successful for the following reason: " + status);
                     }
                 });
             };
 
 
             google.maps.event.addListener(map, 'click', function (event) {
-                map.setZoom(8);
-               clickedLocation.X = event.latLng.A;
+                map.setZoom(12);
+                clickedLocation.X = event.latLng.A;
                 clickedLocation.Y = event.latLng.F;
-                //map.setCenter(marker.getPosition());
+                map.setCenter(marker.getPosition());
             });
+
+
 
             var ctaLayer = new google.maps.KmlLayer({
                 url: "https://raw.githubusercontent.com/naiduv/kml/master/junklayer1.kml"
@@ -89,12 +90,12 @@
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 </head>
-
 <body>
     <div id="logo"><img style="background-color: transparent" src="../Images/logo.png" /></div>
     <div id="upload-form">
         @Html.Partial("~/Views/Home/ItemUpload.cshtml", new JunksOut.Domain.UploadData());
     </div>
+    
     <div id="map-canvas" />
 </body>
 </html>

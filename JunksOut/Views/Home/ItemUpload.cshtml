@@ -3,18 +3,44 @@
     Layout = null;
 }
 
+
+
+
+
+<button id="btnSearch"> Search
+</button>
+
 @using (Html.BeginForm("Upload", "Home", FormMethod.Post,
                              new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
+<fieldset>
+    Enter Address: 
+<input name="addresstextview"  id="address" type="text" />
 
-    <fieldset>
-        Select a file <input type="file" name="file" />
-        <input type="submit" value="Upload"  />
+    <div>
+    Select a file <input type="file" name="file" />
+    <input  type="submit" value="Upload"  />
+    </div>
 
-        <input id="address" type="text" value="">
-    </fieldset>
+<div>
+Enter Tags:
+<input name="tagstextview" id="tags" type="text" />
+</div>
+
+<div>
+Enter Description:
+<input name="descriptiontextview" id="description" type="text" />
+</div>
+
+</fieldset>
 }
-<button id="btnSearch" style="font-family: Lao UI;"> Search
-</button>
+
+
+
+
+
+
+
+
 

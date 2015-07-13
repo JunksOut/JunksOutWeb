@@ -8,7 +8,15 @@ using Microsoft.AspNet.Mvc.Facebook;
 using Microsoft.AspNet.Mvc.Facebook.Client;
 using JunksOut.Domain;
 using JunksOut.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Xml;
+using System.Net;
 
 namespace JunksOut.Controllers
 {
@@ -17,6 +25,9 @@ namespace JunksOut.Controllers
         private readonly TytContext _dbContext;
         private readonly JunksOutModel _junksOutModel = new JunksOutModel();
 
+        public string GeoLat { get; set; }
+        public string GeoLong { get; set; }
+        public string AddrName { get; set; }
 
         public HomeController()
         {
@@ -42,14 +53,91 @@ namespace JunksOut.Controllers
 
         }
 
+        //Function to get the coordinates and the formatted address from inputed address from user
+        public void GeoCode()
+        {
+            //to Read the Stream
+            StreamReader sr = null;
+
+            AddrName = Request.Form["addresstextview"]; //Gets the address inputed by user from ItemUpload view
+           
+
+            //The Google Maps API Either return JSON or XML. We are using XML Here
+            //Saving the url of the Google API 
+            string url = String.Format("http://maps.googleapis.com/maps/api/geocode/xml?address=" +
+             AddrName + "&sensor=false");
+
+            //to Send the request to Web Client 
+            WebClient wc = new WebClient();
+            try
+            {
+                sr = new StreamReader(wc.OpenRead(url));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("The Error Occured" + ex.Message);
+            }
+
+            try
+            {
+                XmlTextReader xmlReader = new XmlTextReader(sr);
+                bool latread = false;
+                bool longread = false;
+                bool properead = false;
+
+                while (xmlReader.Read())
+                {
+                    xmlReader.MoveToElement();
+                    switch (xmlReader.Name)
+                    {
+                        case "lat":
+
+                            if (!latread)
+                            {
+                                xmlReader.Read();
+                                GeoLat = xmlReader.Value.ToString();
+                                latread = true;
+
+                            }
+                            break;
+                        case "lng":
+                            if (!longread)
+                            {
+                                xmlReader.Read();
+                                GeoLong = xmlReader.Value.ToString();
+                                longread = true;
+                            }
+                            break;
+                        case "formatted_address":
+                            if (!properead)
+                            {
+                                xmlReader.Read();
+                                AddrName = xmlReader.Value.ToString();
+                                properead = true;
+                            }
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An Error Occured" + ex.Message);
+            }
+        }
+
+
+
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Upload([Bind(Include = "address, location, tags, description, userid, imageUrl")] item userItem)
         {
-            var selectedCordinates = ViewBag.SelectedLocation;
-            var selectedAddress = ViewBag.SelectedAddress;
+            //var selectedCordinates = ViewBag.SelectedLocation;
+            //string addr = userItem.address;
+            //var selectedAddress = ViewBag.SelectedAddress;
+
             foreach (string file in Request.Files)
             {
-               // VerifyUserImagesDir();
+                //VerifyUserImagesDir();
                 var uploadedFile = Request.Files[file];
                 var uploadedFileName = uploadedFile.FileName;
                 if (!(uploadedFileName.Contains(".exe") || uploadedFileName.StartsWith(".") || uploadedFile.ContentLength > 2000000))
@@ -57,17 +145,21 @@ namespace JunksOut.Controllers
                     
                     uploadedFile.SaveAs(Server.MapPath("~/UserContent/") +
                                                   Path.GetFileName(uploadedFileName));
-                   
+
+                    GeoCode();//Gets the address and coordnates
+
+                    string tagsview = Request.Form["tagstextview"];
+                    string descview = Request.Form["descriptiontextview"];
 
                     //add information to db
                     //this needs to be acquired from the UI above
                     _junksOutModel.items.Add(new item
                     {
-                        address = selectedAddress, //"some place, NY",
-                        location = selectedCordinates.A + ", " + selectedCordinates.F, //"38.220630, -85.1231",
-                        tags = "chair, table",
-                        description = "nice dinning room set",
-                        userid = 234,
+                        address = AddrName, 
+                        location = GeoLat + ", " + GeoLong,
+                        tags = tagsview, 
+                        description = descview,
+                        
                         //imageUrl = uploadedFileName
                     });
 
@@ -203,5 +295,7 @@ namespace JunksOut.Controllers
 
             return View("Index");
         }
+
+      
     }
 }
