@@ -3,7 +3,6 @@
     Layout = null;
 }
 
-
 @using (Html.BeginForm("Upload", "Home", FormMethod.Post,
                              new { enctype = "multipart/form-data" }))
 {
@@ -11,15 +10,11 @@
 
     <fieldset>
         Select a file <input type="file" name="file" />
-        <input type="submit" value="Upload" />
+        <input type="submit" value="Upload"  />
 
-         <div>
-        <label for="fileDescription">
-            Description: <input id="fileDescription" name="filetext" type="text" />
-        </label>
-
-
-    </div>
-
+        <input id="address" type="text" value="">
     </fieldset>
 }
+<button id="btnSearch" style="font-family: Lao UI;"> Search
+</button>
+

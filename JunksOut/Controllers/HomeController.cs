@@ -8,6 +8,7 @@ using Microsoft.AspNet.Mvc.Facebook;
 using Microsoft.AspNet.Mvc.Facebook.Client;
 using JunksOut.Domain;
 using JunksOut.Models;
+using System.Linq;
 
 namespace JunksOut.Controllers
 {
@@ -44,38 +45,59 @@ namespace JunksOut.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Upload([Bind(Include = "address, location, tags, description, userid, imageUrl")] item userItem)
         {
+            var selectedCordinates = ViewBag.SelectedLocation;
+            var selectedAddress = ViewBag.SelectedAddress;
             foreach (string file in Request.Files)
             {
-                VerifyUserImagesDir();
+               // VerifyUserImagesDir();
                 var uploadedFile = Request.Files[file];
                 var uploadedFileName = uploadedFile.FileName;
                 if (!(uploadedFileName.Contains(".exe") || uploadedFileName.StartsWith(".") || uploadedFile.ContentLength > 2000000))
                 {
+                    
                     uploadedFile.SaveAs(Server.MapPath("~/UserContent/") +
                                                   Path.GetFileName(uploadedFileName));
+                   
 
                     //add information to db
                     //this needs to be acquired from the UI above
                     _junksOutModel.items.Add(new item
                     {
-                        address = "some place, NY",
-                        location = "38.220630, -85.1231",
+                        address = selectedAddress, //"some place, NY",
+                        location = selectedCordinates.A + ", " + selectedCordinates.F, //"38.220630, -85.1231",
                         tags = "chair, table",
                         description = "nice dinning room set",
                         userid = 234,
-                        imageUrl = uploadedFileName
+                        //imageUrl = uploadedFileName
                     });
 
                     _junksOutModel.SaveChanges();
-                }
+                     
+
+
+                 
+                  // ADDED BY SANJAY ON 06/20/2015
+
+                  // userItem.imageUrl = uploadedFileName;
+                    //if (ModelState.IsValid)
+                    //{
+                    //    _junksOutModel.items.Add(userItem);
+                    //    _junksOutModel.SaveChanges();
+
+                   // }
+                   
+              
+                } // if-loop ending here
 
             }
 
             return RedirectToAction("Map");
         }
 
+           
         public ActionResult Map()
         {
+            
             var model = new List<UploadData>
             {
                 new UploadData{Latitude = "38.220630", Longitude = "-85.697239", Description="couch", TimeSince=1m},
@@ -85,6 +107,12 @@ namespace JunksOut.Controllers
                 new UploadData{Latitude = "38.196090", Longitude = "-85.745435", Description="books", TimeSince=1m},
                 new UploadData{Latitude = "38.216054", Longitude = "-85.747495", Description="toilet", TimeSince=0.6m}
             };
+             
+
+          //  var model = new UploadData
+          //  {
+          //     UploadDatas = this._dbContext.UploadData.ToList()
+          //  };
 
             return View("Map", model);
         }

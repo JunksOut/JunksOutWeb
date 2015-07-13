@@ -6,7 +6,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Data.Entity;
 using Microsoft.AspNet.Mvc.Facebook;
+using JunksOut.Models;
 
 namespace JunksOut
 {
@@ -21,6 +23,8 @@ namespace JunksOut
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            //Database.SetInitializer(new SampleData());
 
         }
     }
