@@ -269,10 +269,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\TytContext.mdf" />
-    <Content Include="App_Data\TytContext_log.ldf">
-      <DependentUpon>TytContext.mdf</DependentUpon>
-    </Content>
     <Content Include="Images\background.png" />
     <Content Include="Images\arrow.png" />
     <Content Include="favicon.ico" />
