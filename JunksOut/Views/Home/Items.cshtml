@@ -2,10 +2,13 @@
     Layout = null;
 }
 
-@{
-    foreach (var uri in @Model)
-    {
-        <img src="@uri" width="100px" />
-    }
-}
 
+<div id="itemView">
+    @{
+        foreach (var uri in @Model)
+        {
+            <img class="item" src="@uri" />
+
+        }
+    }
+</div>

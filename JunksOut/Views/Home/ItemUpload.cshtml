@@ -13,23 +13,24 @@
 @Html.ValidationSummary(true)
 
 <fieldset>
-    Enter Address: 
-<input name="addresstextview"  id="address" type="text" />
+@*    Enter Address:  *@
+@*    <input name="addresstextview"  id="address" type="text" />*@
+@**@
+@*    <div>*@
+@*    Enter Tags:*@
+@*    <input name="tagstextview" id="tags" type="text" />*@
+@*    </div>*@
+@*    *@
+@*    <div>*@
+@*    Enter Description:*@
+@*    <input name="descriptiontextview" id="description" type="text" />*@
+@*    </div>*@
+
 
     <div>
-    Select a file <input type="file" name="file" />
-    <input  type="submit" value="Upload"  />
+        <input type="file" name="file" value="Select Image" accept="image/*" />
+        <input type="submit" value="Upload" />
     </div>
-
-<div>
-Enter Tags:
-<input name="tagstextview" id="tags" type="text" />
-</div>
-
-<div>
-Enter Description:
-<input name="descriptiontextview" id="description" type="text" />
-</div>
 
 </fieldset>
 }

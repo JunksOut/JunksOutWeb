@@ -165,7 +165,7 @@ body {
 }
 
 #map-canvas {
-    height: 100%;
+    height: 96%;
     z-index: 0;
 }
 
@@ -173,6 +173,48 @@ body {
     z-index: 1;
     background-color:transparent;
     position: absolute;
-    right: 1%;
+    top: 4%;
+    left: 10%;
     
+}
+
+#upload-form {
+    background-color: white;
+    height: 5%;
+    width: 100%;
+    font-family: "Lucida", sans-serif;
+    font-size: 10px;
+}
+
+fieldset {
+    border: 0px;
+}
+
+#btnArea {
+    position: fixed;
+    top: 78%;
+    left: 50%;
+    z-index: 10;
+}
+
+#item-area {
+    background-color: white;
+    height: 18%;
+    width: 100%;
+    overflow-x: scroll;
+    position:fixed;
+    top: 82%; 
+    left:0%;
+    z-index: 10;
+    overflow-y: hidden;
+
+}
+
+#itemView {
+    width: 1000px;
+}
+
+.item {
+    width: 100px;
+    float: left;
 }

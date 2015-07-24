@@ -14,18 +14,11 @@
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-    <button id="btnSearch">
-        Search
-    </button>
-
-
-    <button id="btnShowItems" onclick="showItems()">
-        Show Items
-    </button>
-
-
-
     <script type="text/javascript">
+        $(function() {
+            showItems();
+        });
+
         function showItems() {
             $.ajax({
                 type: "POST",
@@ -118,15 +111,26 @@
     </script>
 </head>
 <body>
-    <div id="logo"><img style="background-color: transparent" src="../Images/logo.png" /></div>
-<div id="upload-form">
-    @Html.Partial("~/Views/Home/ItemUpload.cshtml", new JunksOut.Domain.UploadData());
-</div>
 
-
-    <div id="item-area" width="100px" height="100px" style="position:fixed;top: 20%; left:80%; z-index: 10 ">
+    <div id="logo"><img style="background-color: transparent; width: 100%" src="../Images/logo.png" />
+    </div>
+    
+    <div id="upload-form">
+        @Html.Partial("~/Views/Home/ItemUpload.cshtml", new JunksOut.Domain.UploadData());
     </div>
 
-<div id="map-canvas" />
-</body>
+    <div id="btnArea">
+        <button id="btnSearch">
+            Search
+        </button>
+        <button id="btnShowItems" onclick="showItems()">
+            Refresh Items
+        </button>
+    </div>
+
+    <div id="item-area">
+    </div>
+
+    <div id="map-canvas" />
+    </body>
 </html>
