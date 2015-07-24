@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TrashYourTreasure {
+namespace JunksOut {
     public class MyRole :
         OmidID.Web.Security.EFRoleProvider<
             OmidID.Web.Security.Default.DefaultRole,// Or your custom class

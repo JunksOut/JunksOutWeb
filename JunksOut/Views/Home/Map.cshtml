@@ -6,12 +6,39 @@
 <html>
 <head>
     <title>Junk's Out</title>
-    <link rel="shortcut icon" href="../Images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../Images/favicon.ico" type="image/x-icon"/>
+
     <link rel="stylesheet" href="../Content/Site.css" type="text/css" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYzvHvGmLcQOyRIg5mBYQKU45J9LrNWsg">
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <button id="btnSearch">
+        Search
+    </button>
+
+
+    <button id="btnShowItems" onclick="showItems()">
+        Show Items
+    </button>
+
+
+
     <script type="text/javascript">
+        function showItems() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Items", "Home")",
+                success: function(response) {
+                    $("#item-area").html(response);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // TODO: Show error
+                }
+            });
+        }
+
         function initialize() {
             var mapOptions = {
                 center: new google.maps.LatLng(38.220630, -85.697239),
@@ -92,10 +119,14 @@
 </head>
 <body>
     <div id="logo"><img style="background-color: transparent" src="../Images/logo.png" /></div>
-    <div id="upload-form">
-        @Html.Partial("~/Views/Home/ItemUpload.cshtml", new JunksOut.Domain.UploadData());
+<div id="upload-form">
+    @Html.Partial("~/Views/Home/ItemUpload.cshtml", new JunksOut.Domain.UploadData());
+</div>
+
+
+    <div id="item-area" width="100px" height="100px" style="position:fixed;top: 20%; left:80%; z-index: 10 ">
     </div>
-    
-    <div id="map-canvas" />
+
+<div id="map-canvas" />
 </body>
 </html>

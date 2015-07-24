@@ -25,7 +25,7 @@ namespace JunksOut
         [StringLength(500)]
         public string tags { get; set; }
 
-        //[StringLength(500)]
-        //public string imageUrl { get; set; }
+        [StringLength(500)]
+        public string imageUrl { get; set; }
     }
 }

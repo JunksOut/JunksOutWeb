@@ -17,6 +17,10 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Xml;
 using System.Net;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace JunksOut.Controllers
 {
@@ -29,9 +33,13 @@ namespace JunksOut.Controllers
         public string GeoLong { get; set; }
         public string AddrName { get; set; }
 
+        private CloudStorageAccount _storageAccount;
+
         public HomeController()
         {
             _dbContext = new TytContext();
+            _storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["StorageConnectionString"].ToString());
+
         }
 
         [FacebookAuthorize("email", "user_photos")]
@@ -129,64 +137,64 @@ namespace JunksOut.Controllers
 
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Upload([Bind(Include = "address, location, tags, description, userid, imageUrl")] item userItem)
+        public ActionResult Upload(
+            [Bind(Include = "address, location, tags, description, userid, imageUrl")] item userItem)
         {
-            //var selectedCordinates = ViewBag.SelectedLocation;
-            //string addr = userItem.address;
-            //var selectedAddress = ViewBag.SelectedAddress;
+            
+            //if there is no file return 
+            if (Request.Files[0] == null)
+                return RedirectToAction("Map");
 
-            foreach (string file in Request.Files)
+
+            var file = Request.Files[0];
+
+            //azure storage for image files (container is called usercontent)
+            CloudBlobClient blobClient = _storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference("usercontent");
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(file.FileName);
+            blockBlob.UploadFromStream(file.InputStream);
+
+            GeoCode(); //Gets the address and coordnates
+
+            string tagsview = Request.Form["tagstextview"];
+            string descview = Request.Form["descriptiontextview"];
+
+            //add information to db
+            //this needs to be acquired from the UI above
+            _junksOutModel.items.Add(new item
             {
-                //VerifyUserImagesDir();
-                var uploadedFile = Request.Files[file];
-                var uploadedFileName = uploadedFile.FileName;
-                if (!(uploadedFileName.Contains(".exe") || uploadedFileName.StartsWith(".") || uploadedFile.ContentLength > 2000000))
-                {
-                    
-                    uploadedFile.SaveAs(Server.MapPath("~/UserContent/") +
-                                                  Path.GetFileName(uploadedFileName));
+                address = AddrName,
+                location = GeoLat + ", " + GeoLong,
+                tags = tagsview,
+                description = descview,
+                imageUrl = file.FileName,
+            });
 
-                    GeoCode();//Gets the address and coordnates
+            _junksOutModel.SaveChanges();
 
-                    string tagsview = Request.Form["tagstextview"];
-                    string descview = Request.Form["descriptiontextview"];
-
-                    //add information to db
-                    //this needs to be acquired from the UI above
-                    _junksOutModel.items.Add(new item
-                    {
-                        address = AddrName, 
-                        location = GeoLat + ", " + GeoLong,
-                        tags = tagsview, 
-                        description = descview,
-                        
-                        //imageUrl = uploadedFileName
-                    });
-
-                    _junksOutModel.SaveChanges();
-                     
-
-
-                 
-                  // ADDED BY SANJAY ON 06/20/2015
-
-                  // userItem.imageUrl = uploadedFileName;
-                    //if (ModelState.IsValid)
-                    //{
-                    //    _junksOutModel.items.Add(userItem);
-                    //    _junksOutModel.SaveChanges();
-
-                   // }
-                   
-              
-                } // if-loop ending here
-
-            }
 
             return RedirectToAction("Map");
         }
 
-           
+
+        public ActionResult Items()
+        {
+            CloudBlobClient blobClient = _storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference("usercontent");
+
+            var ImageUris = new List<string>();
+
+            foreach (var item in _junksOutModel.items)
+            {
+                if (item.imageUrl != null)
+                {
+                    ImageUris.Add(container.GetBlockBlobReference(item.imageUrl).StorageUri.PrimaryUri.ToString());
+                }
+            }
+
+            return View("Items", ImageUris);
+        }
+
         public ActionResult Map()
         {
             
@@ -209,6 +217,7 @@ namespace JunksOut.Controllers
             return View("Map", model);
         }
 
+        
         [HttpGet]
         public ContentResult PickupKml()
         {

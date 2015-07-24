@@ -7,13 +7,11 @@
 
 
 
-<button id="btnSearch"> Search
-</button>
-
 @using (Html.BeginForm("Upload", "Home", FormMethod.Post,
-                             new { enctype = "multipart/form-data" }))
+                         new { enctype = "multipart/form-data" }))
 {
-    @Html.ValidationSummary(true)
+@Html.ValidationSummary(true)
+
 <fieldset>
     Enter Address: 
 <input name="addresstextview"  id="address" type="text" />
