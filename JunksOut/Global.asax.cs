@@ -17,13 +17,12 @@ namespace JunksOut
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            FacebookConfig.Register(GlobalFacebookConfiguration.Configuration);
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+            //FacebookConfig.Register(GlobalFacebookConfiguration.Configuration);
+            //GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth();
-
+           
             //Database.SetInitializer(new SampleData());
 
         }

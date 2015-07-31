@@ -9,7 +9,6 @@ using Microsoft.AspNet.Mvc.Facebook.Client;
 using JunksOut.Domain;
 using JunksOut.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -33,6 +32,26 @@ namespace JunksOut.Controllers
         public string GeoLong { get; set; }
         public string AddrName { get; set; }
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        
         private CloudStorageAccount _storageAccount;
 
         public HomeController()
@@ -42,17 +61,17 @@ namespace JunksOut.Controllers
 
         }
 
-        [FacebookAuthorize("email", "user_photos")]
-        public async Task<ActionResult> Index(FacebookContext context)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await context.Client.GetCurrentUserAsync<MyAppUser>();
-                return View(user);
-            }
+        //[FacebookAuthorize("email", "user_photos")]
+        //public async Task<ActionResult> Index(FacebookContext context)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = await context.Client.GetCurrentUserAsync<MyAppUser>();
+        //        return View(user);
+        //    }
 
-            return View("Error");
-        }
+        //    return View("Error");
+        //}
 
         private void VerifyUserImagesDir()
         {
@@ -268,15 +287,16 @@ namespace JunksOut.Controllers
         // This action will handle the redirects from FacebookAuthorizeFilter when
         // the app doesn't have all the required permissions specified in the FacebookAuthorizeAttribute.
         // The path to this action is defined under appSettings (in Web.config) with the key 'Facebook:AuthorizationRedirectPath'.
-        public ActionResult Permissions(FacebookRedirectContext context)
-        {
-            if (ModelState.IsValid)
-            {
-                return View(context);
-            }
+        
+        //public ActionResult Permissions(FacebookRedirectContext context)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        return View(context);
+        //    }
 
-            return View("Error");
-        }
+        //    return View("Error");
+        //}
 
         public ActionResult CreatePickup(Pickup newPickup)
         {
