@@ -15,8 +15,8 @@ using JunksOut.Models;
 
 namespace JunksOut.Controllers
 {
-    [Authorize]
-    [RequireHttps]
+    //[Authorize]
+  
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;

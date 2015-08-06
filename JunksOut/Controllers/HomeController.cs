@@ -32,6 +32,7 @@ namespace JunksOut.Controllers
         public string GeoLong { get; set; }
         public string AddrName { get; set; }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
