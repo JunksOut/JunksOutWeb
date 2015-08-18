@@ -129,8 +129,9 @@ p {
 }
 
 #upload-form{
-    position: absolute;
-    z-index: 3;
+    position: relative;
+    
+    z-index: 1;
 }
 
 .buttonLink {
@@ -166,7 +167,7 @@ body {
 
 #map-canvas {
     height: 96%;
-    z-index: 0;
+    z-index: 10;
 }
 
 #logo {
@@ -197,7 +198,7 @@ fieldset {
     z-index: 10;
 }
 
-#item-area {
+/*#item-area {
     background-color: white;
     height: 18%;
     width: 100%;
@@ -206,15 +207,21 @@ fieldset {
     top: 82%; 
     left:0%;
     z-index: 10;
-    overflow-y: hidden;
+    overflow-y: scroll;
 
-}
+}*/
 
-#itemView {
+/*#itemView {
     width: 1000px;
 }
 
 .item {
     width: 100px;
     float: left;
-}
+}*/
+
+
+
+
+
+

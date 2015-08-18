@@ -5,42 +5,49 @@
 <!DOCTYPE html>
 <html>
 <head>
+     @Styles.Render("~/Content/css")
+     @Scripts.Render("~/bundles/modernizr")
+
     <title>Junk's Out</title>
     <link rel="shortcut icon" href="../Images/favicon.ico" type="image/x-icon"/>
-
+    <link rel="stylesheet" href="css/nivo-slider.css" media="screen">
     <link rel="stylesheet" href="../Content/Site.css" type="text/css" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYzvHvGmLcQOyRIg5mBYQKU45J9LrNWsg">
     </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-    <script type="text/javascript">
-        $(function() {
-            showItems();
-        });
-
-        function showItems() {
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("Items", "Home")",
-                success: function(response) {
-                    $("#item-area").html(response);
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    // TODO: Show error
-                }
-            });
-        }
-
-        function initialize() {
-            var mapOptions = {
-                center: new google.maps.LatLng(38.220630, -85.697239),
-                zoom: 13
-            };
+    
+   
 
 
-            var map = new google.maps.Map(document.getElementById("map-canvas"),
-                mapOptions);
+   <script type="text/javascript">
+       $(function() {
+           showItems();
+       });
+
+       function showItems() {
+           $.ajax({
+               type: "POST",
+               url: "@Url.Action("Items", "Home")",
+               success: function(response) {
+                   $("#item-area").html(response);
+               },
+           error: function (xhr, textStatus, errorThrown) {
+               // TODO: Show error
+           }
+       });
+       }
+
+       function initialize() {
+           var mapOptions = {
+               center: new google.maps.LatLng(38.220630, -85.697239),
+               zoom: 13
+           };
+
+
+           var map = new google.maps.Map(document.getElementById("map-canvas"),
+               mapOptions);
 
 
            
@@ -111,14 +118,45 @@
     </script>
 </head>
 <body>
+       
 
     <div id="logo"><img style="background-color: transparent; width: 100%" src="../Images/logo.png" />
     </div>
-    
-    <div id="upload-form">
-        @Html.Partial("~/Views/Home/ItemUpload.cshtml", new JunksOut.Domain.UploadData());
-    </div>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+        
+            <div class="navbar-header">
+                <div>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li> 
+                </ul>
+                </div>
+                <div id="upload-form">
+                 @Html.Partial("~/Views/Home/ItemUpload.cshtml", new JunksOut.Domain.UploadData());
+                 </div>
+ 
+                
+               <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+               <!-- @Html.ActionLink("Index", "Home", new { area = "" }, new { @class = "navbar-brand" })-->
+            </div>
 
+           
+
+            <!--<div class="navbar-collapse collapse">-->
+                
+                @Html.Partial("_LoginPartial")
+            <!--</div>-->
+            
+        </div>
+        </div>
+
+    
+
+    
     <div id="btnArea">
         <button id="btnSearch">
             Search
@@ -132,5 +170,10 @@
     </div>
 
     <div id="map-canvas" />
+
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+  
     </body>
 </html>

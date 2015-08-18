@@ -3,12 +3,41 @@
 }
 
 
-<div id="itemView">
-    @{
+<body>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="js/jquery.nivo.slider.pack.js"></script>
+        <script>
+            $(window).load(function() {
+                $('#slider').nivoSlider({
+                    directionNavHide: false,
+                    captionOpacity: 1,
+                    prevText: '<',
+                    nextText: '>'
+                });
+            });
+        </script>
+</body>
+
+
+<div class="slider-wrapper futurico-theme">
+ 
+    <div id="slider" class="nivoSlider">
+ 
+        @{
         foreach (var uri in @Model)
         {
             <img class="item" src="@uri" />
 
         }
     }
+ 
+    </div>
+ 
+</div>
+<div id="caption1" class="nivo-html-caption">
+    <strong>New Project</strong> <span></span> <em>Some description here</em>.
+</div>
+ 
+<div id="caption3" class="nivo-html-caption">
+    <strong>Image 3</strong> <span></span> <em>Some description here</em>.
 </div>
